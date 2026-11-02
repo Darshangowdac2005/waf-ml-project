@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir fastapi "uvicorn[standard]"
+
+COPY dummy_app.py /app/dummy_app.py
+
+EXPOSE 5000
+
+CMD ["uvicorn", "dummy_app:app", "--host", "0.0.0.0", "--port", "5000"]
